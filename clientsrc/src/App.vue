@@ -27,13 +27,4 @@ export default {
 @import "bootstrap";
 @import "./assets/_bootswatch.scss";
 @import "./assets/_colors.scss";
-
-// * {
-//   outline: 1px solid red;
-// }
-
-.btn-danger {
-  background: $atomic-tangerine;
-  border: $atomic-tangerine;
-}
 </style>

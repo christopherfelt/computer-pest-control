@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import Axios from "axios";
 import router from "../router";
+import { BugStore } from "./BugStore";
 
 Vue.use(Vuex);
 
@@ -12,17 +13,18 @@ let baseUrl = location.host.includes("localhost")
 let api = Axios.create({
   baseURL: baseUrl + "api",
   timeout: 3000,
-  withCredentials: true
+  withCredentials: true,
 });
 
 export default new Vuex.Store({
   state: {
-    profile: {}
+    profile: {},
+    bugs: [],
   },
   mutations: {
     setProfile(state, profile) {
       state.profile = profile;
-    }
+    },
   },
   actions: {
     setBearer({}, bearer) {
@@ -38,6 +40,9 @@ export default new Vuex.Store({
       } catch (error) {
         console.error(error);
       }
-    }
-  }
+    },
+  },
+  modules: {
+    BugStore,
+  },
 });
