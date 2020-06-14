@@ -1,11 +1,19 @@
 <template>
-  <div class="container-fluid ">
-    <div class="row d-flex justify-content-center">
-      <div class="col-8 d-flex justify-content-center border align-self-center">
-        <div class="card">
-          <h2>Bug Stuff</h2>
+  <div class="container-fluid home-container">
+    <div class="row d-flex justify-content-center mt-5 home-row">
+      <div class="col-10 d-flex justify-content-center align-self-center">
+        <div class="card w-100 long">
           <div class="card-body">
-            <ul class="list-group">
+            <div class="row title-bar border-bottom p-0">
+              <div class="col-2">Title</div>
+              <div class="col-2">Reported By</div>
+              <div class="col-2">Bug Type</div>
+              <div class="col-2">Status</div>
+              <div class="col-2">Assigned Tech</div>
+              <div class="col-2">Last Modified</div>
+            </div>
+
+            <ul class="list-group mt-2">
               <bug v-for="bug in bugs" :key="bug.id" :bug="bug" />
             </ul>
           </div>
@@ -36,7 +44,16 @@ export default {
 <style lang="scss">
 @import "../assets/_colors.scss";
 
-.row {
-  height: 80vh;
+.home-container {
+  position: absolute;
+  top: 0;
+  left: 18%;
+  width: 80%;
+  height: auto;
+  // border: 5px solid red;
+}
+
+.title-bar > div {
+  font-size: 1.2rem;
 }
 </style>
