@@ -1,26 +1,39 @@
 <template>
-  <div class="profile-container">
-    <div class="card profile-card">
-      <img
-        class="mr-3"
-        :src="profile.picture"
-        alt="Generic placeholder image"
-      />
-      <div class="card-body">
-        <h5>
+  <div class="profile-container ">
+    <div class="card profile-card float-right m-2 shadow-sm">
+      <div class="img-div">
+        <img
+          class="profile-img"
+          :src="profile.picture"
+          alt="Generic placeholder image"
+        />
+        <span>
           {{ profile.email }}
-        </h5>
+        </span>
+      </div>
+      <div>
+        <button class="btn btn-danger btn-sm float-right m-1" @click="logout">
+          logout
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { getUserData } from "@bcwdev/auth0-vue";
 export default {
   name: "Profile",
   computed: {
     profile() {
       return this.$store.state.profile;
+    },
+  },
+  methods: {
+    async logout() {
+      console.log("here");
+      this.$store.dispatch("resetBearer");
+      await this.$auth.logout({ returnTo: window.location.origin });
     },
   },
 };
@@ -44,6 +57,14 @@ img {
 }
 
 .profile-card {
-  width: 10%;
+  width: 300px;
+}
+
+.profile-img {
+  width: 32px;
+}
+
+.img-div {
+  width: auto;
 }
 </style>

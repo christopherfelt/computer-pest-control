@@ -1,6 +1,9 @@
 <template>
   <div class="">
-    <router-link :to="{ name: 'BugDetail', params: { id: bug.id } }">
+    <router-link
+      class="remove-underline"
+      :to="{ name: 'BugDetail', params: { id: bug._id } }"
+    >
       <li class="row buglist">
         <div class="col-2 buglist-item">{{ bug.title }}</div>
         <div class="col-2 buglist-item">{{ bug.creatorEmail }}</div>
@@ -31,6 +34,14 @@ export default {
 <style scoped>
 .buglist {
   font-size: 1rem;
+  color: black;
+}
+.buglist:hover {
+  background-color: lightblue;
+}
+
+.remove-underline {
+  text-decoration: none;
 }
 
 .buglist-item {

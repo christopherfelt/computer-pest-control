@@ -1,21 +1,21 @@
 <template>
-  <nav id="sidebar" class="bg-secondary">
+  <nav id="sidebar" class="bg-panel">
     <div class="sidebar-header m-3">
       <h5 class="">Computer Pest Control</h5>
     </div>
-    <div class="d-flex justify-content-start ml-4">
+    <div class="d-flex justify-content-start ml-5">
       <ul class="list-unstyled components ">
-        <li class="active">
-          <a
-            href="#homeSubmenu"
-            data-toggle="collapse"
-            aria-expanded="false"
-            class="dropdown-toggle remove-underline"
-            >Activity</a
+        <li class="active ">
+          <router-link
+            class="remove-underline font-weight-bolder"
+            :to="{ name: 'Home' }"
+            >Activity</router-link
           >
-          <ul class="collapse list-unstyled pl-2" id="homeSubmenu">
+          <ul class="list-unstyled pl-2" id="homeSubmenu">
             <li>
-              <a href="#" class="remove-underline">All Reports</a>
+              <router-link class="remove-underline" :to="{ name: 'Home' }"
+                >All Reports</router-link
+              >
             </li>
             <li>
               <a href="#" class="remove-underline">Open Reports</a>
@@ -26,24 +26,25 @@
           </ul>
         </li>
         <li>
-          <a
-            href="#pageSubmenu"
-            data-toggle="collapse"
-            aria-expanded="false"
-            class="dropdown-toggle remove-underline"
-            >Personal Activity</a
+          <router-link
+            class="remove-underline font-weight-bolder"
+            :to="{ name: 'Profile' }"
+            >Profile</router-link
           >
-          <ul class="collapse list-unstyled pl-2" id="pageSubmenu">
+          <ul class="list-unstyled pl-2" id="pageSubmenu">
             <li>
               <router-link class="remove-underline" :to="{ name: 'Profile' }"
-                >Profile</router-link
+                >Open Reports</router-link
               >
             </li>
             <li>
-              <a href="#" class="remove-underline">Page 2</a>
+              <a href="#" class="remove-underline">Closed Report</a>
             </li>
             <li>
-              <a href="#" class="remove-underline">Page 3</a>
+              <a href="#" class="remove-underline">Notes</a>
+            </li>
+            <li>
+              <a href="#" class="remove-underline">Collaborations</a>
             </li>
           </ul>
         </li>
@@ -72,6 +73,10 @@ export default {
   left: 0;
   height: 100vh;
   z-index: 999;
+}
+
+.bg-panel {
+  background-color: #4a71a1;
 }
 
 .remove-underline {

@@ -11,7 +11,7 @@ const Bug = new Schema(
     tech: { type: String },
     bugType: {
       type: String,
-      enum: ["backend", "frontend", "devops"],
+      enum: ["backend", "frontend", "devops", "none"],
       default: "none",
     },
     collaborators: [{ type: String }],
