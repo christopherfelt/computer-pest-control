@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import Axios from "axios";
 import router from "../router";
 import { BugStore } from "./BugStore";
+import { NoteStore } from "./NoteStore";
 
 Vue.use(Vuex);
 
@@ -44,5 +45,6 @@ export default new Vuex.Store({
   },
   modules: {
     BugStore,
+    NoteStore,
   },
 });

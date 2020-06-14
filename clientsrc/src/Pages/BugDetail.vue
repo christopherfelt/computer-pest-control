@@ -62,34 +62,78 @@
     <div class="row d-flex justify-content-center">
       <div class="col-10 ">
         <div class="text-right">
-          <button class="btn btn-info">
+          <button
+            class="btn btn-info"
+            @click="noteFormVisible = !noteFormVisible"
+          >
             <i class="fas fa-plus"></i>
           </button>
         </div>
         <div class="border notes-box mt-2">
-          Notes section
+          <note v-for="note in notes" :key="note.id" :note="note" />
         </div>
       </div>
+    </div>
+    <div
+      v-if="noteFormVisible"
+      class="card p-3 note-form"
+      @submit.prevent="createNote"
+    >
+      <form>
+        <div class="form-group mb-0">
+          <h6>Add a note</h6>
+          <label for="content">
+            <textarea
+              title="content"
+              class="form-control"
+              v-model="noteForm.content"
+              rows="2"
+              cols="30"
+            />
+          </label>
+        </div>
+        <div class="form-group float-right">
+          <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+        </div>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
+import Note from "../components/note";
+
 export default {
   name: "BugDetail",
   mounted() {
     this.$store.dispatch("getBugById", this.$route.params.id);
+    this.$store.dispatch("getNotesByBugId", this.$route.params.id);
   },
   data() {
-    return {};
+    return {
+      noteForm: {},
+      noteFormVisible: false,
+    };
   },
   computed: {
     activeBug() {
       return this.$store.state.BugStore.activeBug;
     },
+    notes() {
+      return this.$store.state.NoteStore.notes;
+    },
   },
-  methods: {},
-  components: {},
+  methods: {
+    createNote() {
+      this.$store.dispatch("createNote", {
+        content: this.noteForm.content,
+        bugId: this.activeBug._id,
+      });
+      this.noteForm = {};
+      this.noteFormVisible = false;
+    },
+  },
+  components: { Note },
 };
 </script>
 
@@ -109,5 +153,11 @@ export default {
 .description-box,
 .notes-box {
   min-height: 200px;
+}
+
+.note-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
 }
 </style>
