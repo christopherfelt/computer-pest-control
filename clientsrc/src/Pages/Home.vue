@@ -143,7 +143,7 @@ export default {
     },
     createReport() {
       this.$store.dispatch("createBugReport", this.createForm);
-      this.createForm;
+      this.createForm = {};
       this.createFormVisible = false;
     },
   },

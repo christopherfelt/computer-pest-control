@@ -4,12 +4,15 @@
       class="remove-underline"
       :to="{ name: 'BugDetail', params: { id: bug._id } }"
     >
-      <li class="row buglist">
+      <li
+        class="row border rounded buglist rounded-0"
+        :class="{ closed: bug.closed, unresolved: !bug.closed }"
+      >
         <div class="col-2 buglist-item">{{ bug.title }}</div>
         <div class="col-2 buglist-item">{{ bug.creatorEmail }}</div>
         <div class="col-2 buglist-item">{{ bug.bugType }}</div>
         <div class="col-2 buglist-item" v-if="bug.closed">Closed</div>
-        <div class="col-2 buglist-item" else>Open</div>
+        <div class="col-2 buglist-item" v-else>Unresolved</div>
         <div class="col-2 buglist-item" v-if="bug.tech">{{ bug.tech }}</div>
         <div class="col-2 buglist-item" v-else>Unassigned</div>
         <div class="col-2 buglist-item">{{ bug.modified }}</div>
@@ -46,5 +49,14 @@ export default {
 
 .buglist-item {
   /* border: 1px solid red; */
+}
+
+.closed {
+  background-color: lightgreen;
+  color: gray;
+}
+
+.unresolved {
+  background-color: lightcoral;
 }
 </style>

@@ -23,7 +23,7 @@ class BugsService {
 
   async edit(id, email, body) {
     let data = await dbContext.Bugs.findOneAndUpdate(
-      { _id: id, creatorEmail: email },
+      { _id: id, $or: [{ creatorEmail: email }, { tech: email }] },
       body,
       { new: true }
     );

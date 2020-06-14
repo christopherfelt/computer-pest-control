@@ -13,6 +13,7 @@ export class BugsController extends BaseController {
       .use(auth0Provider.getAuthorizedUserInfo)
       .post("", this.create)
       .get("/:id", this.getBugById)
+      .put("/:id", this.edit)
       .get("/:id/notes", this.getNotesByBugId)
       .post("/:id/notes", this.createNote);
   }

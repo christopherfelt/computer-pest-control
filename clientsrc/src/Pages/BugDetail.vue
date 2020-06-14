@@ -2,12 +2,38 @@
   <div class="container-fluid detail-container">
     <div class="row d-flex justify-content-center mb-3 mt-5">
       <div class="col-10">
-        <h1 class="mr-2 d-inline">{{ activeBug.title }}</h1>
-        <span class="float-right status text-danger" v-if="activeBug.closed"
+        <form
+          v-if="
+            titleFormVisible && activeBug.creatorEmail == this.$auth.user.email
+          "
+          @submit.prevent="editBugReport"
+        >
+          <input
+            type="text"
+            v-model="activeBug.title"
+            style="font-size: 25px"
+          />
+          <div class="d-inline">
+            <button class="btn btn-primary btn-sm mx-1" type="submit">
+              Submit
+            </button>
+            <button
+              class="btn btn-danger btn-sm"
+              @click="titleFormVisible = false"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+        <h1 v-else class="mr-2 d-inline" @click="titleFormVisible = true">
+          {{ activeBug.title }}
+        </h1>
+
+        <span class="float-right status text-success" v-if="activeBug.closed"
           >Closed</span
         >
-        <span class="float-right status text-success font-weight-bolder" v-else
-          >Open</span
+        <span class="float-right status text-danger font-weight-bolder" v-else
+          >Unresolved</span
         >
         <div>
           <h6 class="d-inline">Reported by:</h6>
@@ -17,7 +43,37 @@
     </div>
     <div class="row d-flex justify-content-center">
       <div class="col-10 border description-box d-flex align-items-center">
-        <p>{{ activeBug.description }}</p>
+        <form
+          v-if="
+            descriptionFormVisible &&
+              activeBug.creatorEmail == this.$auth.user.email
+          "
+          @submit.prevent="editBugReport"
+        >
+          <textarea
+            name=""
+            id=""
+            class="mt-1"
+            cols="135"
+            rows="9"
+            v-model="activeBug.description"
+          >
+          </textarea>
+          <div class="float-right">
+            <button class="btn btn-primary m-1" type="submit">
+              Submit
+            </button>
+            <button
+              class="btn btn-danger m-1"
+              @click="descriptionFormVisible = false"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+        <p v-else @click="descriptionFormVisible = true">
+          {{ activeBug.description }}
+        </p>
       </div>
     </div>
     <div class="row d-flex justify-content-center mt-2">
@@ -54,14 +110,19 @@
             </div>
           </div>
           <div class="col-6">
-            <button class="btn btn-danger float-right">Close</button>
+            <button
+              class="btn btn-success btn-lg float-right"
+              @click="closeBugReport"
+            >
+              Close
+            </button>
           </div>
         </div>
       </div>
     </div>
-    <div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content-center mt-3">
       <div class="col-10 ">
-        <div class="text-right">
+        <div class="text-right float-right">
           <button
             class="btn btn-info"
             @click="noteFormVisible = !noteFormVisible"
@@ -69,7 +130,8 @@
             <i class="fas fa-plus"></i>
           </button>
         </div>
-        <div class="border notes-box mt-2">
+        <div class="notes-box mt-2">
+          <h3>Notes</h3>
           <note v-for="note in notes" :key="note.id" :note="note" />
         </div>
       </div>
@@ -102,6 +164,7 @@
 
 <script>
 import Note from "../components/note";
+import Alerts from "../Alerts";
 
 export default {
   name: "BugDetail",
@@ -113,6 +176,8 @@ export default {
     return {
       noteForm: {},
       noteFormVisible: false,
+      titleFormVisible: false,
+      descriptionFormVisible: false,
     };
   },
   computed: {
@@ -131,6 +196,25 @@ export default {
       });
       this.noteForm = {};
       this.noteFormVisible = false;
+    },
+    async closeBugReport() {
+      console.log("creatorEmail: ", this.activeBug.creatorEmail);
+      console.log("user email", this.$auth.user);
+
+      if (this.activeBug.creatorEmail == this.$auth.user.email) {
+        if (await Alerts.closeConfirm()) {
+          this.$store.dispatch("editBugReport", {
+            _id: this.activeBug._id,
+            closed: true,
+          });
+        }
+      } else {
+        await Alerts.deleteUnauthorized();
+      }
+    },
+    async editBugReport() {
+      this.$store.dispatch("editBugReport", this.activeBug);
+      this.descriptionFormVisible = false;
     },
   },
   components: { Note },

@@ -1,6 +1,11 @@
 <template>
   <nav id="sidebar" class="bg-panel">
     <div class="sidebar-header m-3">
+      <img
+        class="img-fluid"
+        src="https://cdn1.iconfinder.com/data/icons/internet-and-security-outline-1/64/internet-and-security-outline-1-14-512.png"
+        alt=""
+      />
       <h5 class="">Computer Pest Control</h5>
     </div>
     <div class="d-flex justify-content-start ml-5">
@@ -9,9 +14,9 @@
           <router-link
             class="remove-underline font-weight-bolder"
             :to="{ name: 'Home' }"
-            >Activity</router-link
+            >Reports</router-link
           >
-          <ul class="list-unstyled pl-2" id="homeSubmenu">
+          <!-- <ul class="list-unstyled pl-2" id="homeSubmenu">
             <li>
               <router-link class="remove-underline" :to="{ name: 'Home' }"
                 >All Reports</router-link
@@ -23,7 +28,7 @@
             <li>
               <a href="#" class="remove-underline">Closed Reports</a>
             </li>
-          </ul>
+          </ul> -->
         </li>
         <li>
           <router-link
@@ -31,7 +36,7 @@
             :to="{ name: 'Profile' }"
             >Profile</router-link
           >
-          <ul class="list-unstyled pl-2" id="pageSubmenu">
+          <!-- <ul class="list-unstyled pl-2" id="pageSubmenu">
             <li>
               <router-link class="remove-underline" :to="{ name: 'Profile' }"
                 >Open Reports</router-link
@@ -46,7 +51,7 @@
             <li>
               <a href="#" class="remove-underline">Collaborations</a>
             </li>
-          </ul>
+          </ul> -->
         </li>
       </ul>
     </div>

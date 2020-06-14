@@ -78,5 +78,29 @@ export const BugStore = {
         console.error(error);
       }
     },
+
+    async editBugReport({ commit, dispatch }, data) {
+      try {
+        let res = await api.put("bugs/" + data._id, data);
+        const dateOptions = {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        };
+        let modifiedDate = new Date(res.data.updatedAt);
+        let creationDate = new Date(res.data.createdAt);
+        res.data.modified = modifiedDate.toLocaleDateString(
+          "en-US",
+          dateOptions
+        );
+        res.data.creation = creationDate.toLocaleDateString(
+          "en-US",
+          dateOptions
+        );
+        commit("activeBug", res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 };
