@@ -4,7 +4,9 @@
       <div class="col-10">
         <form
           v-if="
-            titleFormVisible && activeBug.creatorEmail == this.$auth.user.email
+            titleFormVisible &&
+              activeBug.creatorEmail == this.$auth.user.email &&
+              activeBug.closed == false
           "
           @submit.prevent="editBugReport"
         >
@@ -46,7 +48,8 @@
         <form
           v-if="
             descriptionFormVisible &&
-              activeBug.creatorEmail == this.$auth.user.email
+              activeBug.creatorEmail == this.$auth.user.email &&
+              activeBug.closed == false
           "
           @submit.prevent="editBugReport"
         >
@@ -198,9 +201,6 @@ export default {
       this.noteFormVisible = false;
     },
     async closeBugReport() {
-      console.log("creatorEmail: ", this.activeBug.creatorEmail);
-      console.log("user email", this.$auth.user);
-
       if (this.activeBug.creatorEmail == this.$auth.user.email) {
         if (await Alerts.closeConfirm()) {
           this.$store.dispatch("editBugReport", {
@@ -215,6 +215,7 @@ export default {
     async editBugReport() {
       this.$store.dispatch("editBugReport", this.activeBug);
       this.descriptionFormVisible = false;
+      this.titleFormVisible = false;
     },
   },
   components: { Note },

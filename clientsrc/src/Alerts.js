@@ -16,4 +16,12 @@ export default class Alerts {
 
     return res.value;
   }
+
+  static async deleteConfirm() {
+    let res = await Swal.fire({
+      title: "Are you sure you want to delete?",
+      icon: "warning",
+    });
+    return res.value;
+  }
 }

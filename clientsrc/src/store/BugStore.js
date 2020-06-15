@@ -1,4 +1,5 @@
 import { api } from "./AxiosService";
+import router from "../router";
 
 export const BugStore = {
   state: {
@@ -74,6 +75,7 @@ export const BugStore = {
         };
         res.data.modified = today.toLocaleDateString("en-US", dateOptions);
         commit("addNewBug", res.data);
+        router.push({ name: "BugDetail", params: { id: res.data._id } });
       } catch (error) {
         console.error(error);
       }

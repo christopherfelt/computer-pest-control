@@ -59,5 +59,14 @@ export const NoteStore = {
         console.error(error);
       }
     },
+
+    async deleteNote({ commit, dispatch }, data) {
+      try {
+        let res = await api.delete("notes/" + data._id);
+        dispatch("getNotesByBugId", data.bug);
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 };

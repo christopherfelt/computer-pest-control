@@ -89,12 +89,23 @@
               <div class="col-2">Title</div>
               <div class="col-2">Reported By</div>
               <div class="col-2">Bug Type</div>
-              <div class="col-2">Status</div>
+              <div class="col-2 filterStatus" @click="changeFilterStatus()">
+                Status <span v-if="bugFilter == 'all'">(All)</span
+                ><span style="color: green" v-else-if="bugFilter == 'closed'"
+                  >(Closed)</span
+                ><span style="color:red" v-else>(Unresolved)</span>
+              </div>
               <div class="col-2">Assigned Tech</div>
               <div class="col-2">Last Modified</div>
             </div>
-            <ul class="list-group mt-2">
+            <ul class="list-group mt-2" v-if="bugFilter == 'all'">
               <bug v-for="bug in bugs" :key="bug.id" :bug="bug" />
+            </ul>
+            <ul class="list-group mt-2" v-if="bugFilter == 'closed'">
+              <bug v-for="bug in closedBugs" :key="bug.id" :bug="bug" />
+            </ul>
+            <ul class="list-group mt-2" v-if="bugFilter == 'open'">
+              <bug v-for="bug in openBugs" :key="bug.id" :bug="bug" />
             </ul>
           </div>
           <div v-else class="card-body text-center">
@@ -126,11 +137,20 @@ export default {
     return {
       createFormVisible: false,
       createForm: {},
+      bugFilter: "all",
     };
   },
   computed: {
     bugs() {
       return this.$store.state.BugStore.bugs;
+    },
+    closedBugs() {
+      let closedBugs = this.bugs.filter((bug) => bug.closed == true);
+      return closedBugs;
+    },
+    openBugs() {
+      let openBugs = this.bugs.filter((bug) => bug.closed == false);
+      return openBugs;
     },
   },
   methods: {
@@ -145,6 +165,17 @@ export default {
       this.$store.dispatch("createBugReport", this.createForm);
       this.createForm = {};
       this.createFormVisible = false;
+    },
+    changeFilterStatus() {
+      console.log("change filter status");
+      console.log(this.bugFilter);
+      if (this.bugFilter == "all") {
+        this.bugFilter = "closed";
+      } else if (this.bugFilter == "closed") {
+        this.bugFilter = "open";
+      } else {
+        this.bugFilter = "all";
+      }
     },
   },
   components: {

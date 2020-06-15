@@ -32,6 +32,17 @@ class NotesService {
     }
     return data;
   }
+
+  async remove(id, email) {
+    console.log(id, email);
+    let data = await dbContext.Notes.findOneAndRemove({
+      _id: id,
+      creatorEmail: email,
+    });
+    if (!data) {
+      throw new BadRequest("Invalid ID or you do not own this note");
+    }
+  }
 }
 
 export const notesService = new NotesService();
